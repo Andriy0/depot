@@ -9,6 +9,11 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   test 'should get index' do
     get products_url
     assert_response :success
+    assert_select 'h1', 'Products'
+    assert_select 'main table tfoot a', 'New Product'
+    assert_select 'main table tbody tr', 3
+    assert_select 'main table tbody tr img', 3
+    assert_select 'main table tbody tr a', 9
   end
 
   test 'should get new' do

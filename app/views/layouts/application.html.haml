@@ -23,6 +23,8 @@
             %a{ href: '/news' } News
           %li
             %a{ href: '/contact' } Contact
+          %li
+            .time= Time.current.strftime('%H:%M:%S')
 
       %main{ class: controller.controller_name }
         = yield
