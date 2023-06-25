@@ -1,6 +1,3 @@
-- if notice
-  %aside#notice= notice
-
 %h1 Your Pragmatic Catalog
 
 %ul.catalog
@@ -12,3 +9,4 @@
           %h2= product.title
           %p= sanitize product.description
           .price= number_to_currency product.price, format: '%n%u'
+          = button_to 'Add to Cart', line_items_path(product_id: product)

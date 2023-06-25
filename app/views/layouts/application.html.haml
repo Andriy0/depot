@@ -27,4 +27,7 @@
             .time= Time.current.strftime('%H:%M:%S')
 
       %main{ class: controller.controller_name }
+        - if notice
+          %aside#notice= notice
+
         = yield
