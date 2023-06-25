@@ -1,5 +1,9 @@
 %h1 Your Pragmatic Catalog
 
+%p You visited this page #{pluralize visit_counter, 'time'}
+- if visit_counter > 5
+  %p Woho! More than 5 times!
+
 %ul.catalog
   - cache @products do
     - @products.each do |product|
