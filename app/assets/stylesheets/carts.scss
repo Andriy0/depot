@@ -21,6 +21,18 @@
         font-weight: bold;
         text-align: right;
       }
+
+      &.actions {
+        a {
+          text-decoration: none;
+
+          &:hover {
+            background-color: white;
+          }
+        }
+
+        border-left: solid thin;
+      }
     }
 
     tfoot {

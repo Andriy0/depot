@@ -1,5 +1,6 @@
 class CartsController < ApplicationController
   before_action :set_cart, only: %i[show edit update destroy]
+  before_action :invalid_cart, only: %i[show update destroy], unless: -> { can_access_cart?(@cart) }
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_cart
 
   # GET /carts or /carts.json
@@ -48,7 +49,7 @@ class CartsController < ApplicationController
 
   # DELETE /carts/1 or /carts/1.json
   def destroy
-    @cart.destroy if @cart.id == session[:cart_id]
+    @cart.destroy if can_access_cart?(@cart)
     session[:cart_id] = nil
 
     respond_to do |format|
@@ -59,9 +60,13 @@ class CartsController < ApplicationController
 
   private
 
+  def can_access_cart?(cart)
+    cart.id == session[:cart_id]
+  end
+
   def invalid_cart
-    logger.error "Attempt to access invalid cart #{params[:id]}"
-    redirect_to store_index_url, notice: 'Invalid cart.'
+    logger.error "Attempt to access invalid or restricted cart #{params[:id]}"
+    redirect_to store_index_url, notice: 'Invalid or restricted cart.'
   end
 
   # Use callbacks to share common setup or constraints between actions.

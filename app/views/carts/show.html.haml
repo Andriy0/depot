@@ -8,6 +8,10 @@
           %td.quantity= line_item.quantity
           %td= line_item.product.title
           %td.price= number_to_currency line_item.total_price
+          %td.actions
+            = link_to line_item, method: :delete do
+              = image_tag 'svg/minus-solid', size: '18'
+
     %tfoot
       %tr
         %th{ colspan: 2 } Total:
