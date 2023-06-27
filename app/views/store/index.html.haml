@@ -1,7 +1,7 @@
 %h1 Your Pragmatic Catalog
 
-%p You visited this page #{pluralize visit_counter, 'time'}
-- if visit_counter > 5
+%p You visited this page #{pluralize session[:visit_counter], 'time'}
+- if session[:visit_counter] > 5
   %p Woho! More than 5 times!
 
 %ul.catalog
@@ -13,4 +13,4 @@
           %h2= product.title
           %p= sanitize product.description
           .price= number_to_currency product.price, format: '%n%u'
-          = button_to 'Add to Cart', line_items_path(product_id: product)
+          = button_to 'Add to Cart', line_items_path(product_id: product.id), remote: true
