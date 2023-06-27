@@ -42,7 +42,8 @@ class ProductsController < ApplicationController
         format.html { redirect_to product_url(@product), notice: "Product was successfully updated." }
         format.json { render :show, status: :ok, location: @product }
 
-        @products = Product.all.order(:title)
+        @products        = Product.all.order(:title)
+        @current_product = @product
         ActionCable.server.broadcast 'products', render_to_string('store/index', layout: false)
       else
         format.html { render :edit, status: :unprocessable_entity }

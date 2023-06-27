@@ -12,4 +12,4 @@
         %th{ colspan: 2 } Total:
         %td.price= number_to_currency cart.total_price
 
-  = button_to 'Empty cart', cart, method: :delete, data: { confirm: 'Are you sure?' }
+  = button_to 'Empty cart', cart, { method: :delete, remote: true, data: { confirm: 'Are you sure?' } }
