@@ -1,7 +1,7 @@
 %h1 Your Pragmatic Catalog
 
 %p You visited this page #{pluralize session[:visit_counter], 'time'}
-- if session[:visit_counter] > 5
+- if (session[:visit_counter] || 0) > 5
   %p Woho! More than 5 times!
 
 %ul.catalog
