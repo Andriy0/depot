@@ -7,5 +7,6 @@ one:
 
 two:
   product: two
+  order: one
   cart: two
   price: 9.99

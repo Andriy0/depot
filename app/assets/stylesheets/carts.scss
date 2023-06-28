@@ -51,6 +51,12 @@
     }
   }
 
+  .actions {
+    display: flex;
+    gap: 1em;
+    justify-content: flex-end;
+  }
+
   input[type='submit'] {
     background-color: #881;
     border-radius: 0.354em;
