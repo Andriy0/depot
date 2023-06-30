@@ -2,7 +2,7 @@ atom_feed do |feed|
   feed.title = "Who bought #{@product.title}"
   feed.updated @latest_order.try(:updated_at)
 
-  @product.orders.each do |order|
+  @product.orders.includes(:line_items).each do |order|
     feed.entry(order) do |entry|
       entry.title "Order #{order.id}"
       entry.summary type: 'xhtml' do |xhtml|
@@ -15,7 +15,7 @@ atom_feed do |feed|
             xhtml.th 'Total Price'
           end
 
-          order.line_items.each do |item|
+          order.line_items.includes(:product).each do |item|
             xhtml.tr do
               xhtml.td item.product.title
               xhtml.td item.quantity

@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: %i[show edit update destroy]
+  before_action :set_product, only: %i[show edit update destroy who_bought]
   rescue_from ActiveRecord::RecordNotFound, with: :invalid_product
 
   # GET /products or /products.json
@@ -63,12 +63,16 @@ class ProductsController < ApplicationController
   end
 
   def who_bought
-    @product = Product.find(params[:id])
     @latest_order = @product.orders.order(:updated_at).last
 
     return unless stale?(@latest_order)
 
-    respond_to(&:atom)
+    respond_to do |format|
+      format.atom
+      format.html
+      format.json { render json: @product.serializable_hash(include: :orders).to_json }
+      format.xml  { render xml: @product.serializable_hash(include: :orders).to_xml }
+    end
   end
 
   private

@@ -42,6 +42,7 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should update order' do
+    # binding.pry
     patch order_url(@order), params: { order: { address: @order.address, email: @order.email, name: @order.name, pay_type: @order.pay_type } }
     assert_redirected_to order_url(@order)
   end

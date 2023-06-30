@@ -1,0 +1,28 @@
+%h1 Who bought #{@product.title}
+- if (updated_at = @latest_order.try(:updated_at))
+  %p Updated #{updated_at}
+
+- @product.orders.includes(:line_items).each do |order|
+  %h2 Order #{order.id}
+  %p Shipped to #{order.address}
+
+  %table
+    %thead
+      %tr
+        %th Product
+        %th Quantity
+        %th Total Price
+    %tbody
+      - order.line_items.includes(:product).each do |item|
+        %tr
+          %td= item.product.title
+          %td= item.quantity
+          %td= number_to_currency item.total_price
+
+      %tr
+        %th{ colspan: 2 } Total
+        %th= number_to_currency order.total_price
+
+  %p Paid by #{order.pay_type}
+  %p Author name #{order.name}
+  %p Author email #{order.email}
