@@ -10,14 +10,17 @@ class CartsTest < ApplicationSystemTestCase
     assert_selector 'h1', text: 'Listing carts'
   end
 
-  test 'updating a Cart' do
+  test 'creating a Cart' do
     visit store_index_url
 
     assert_no_text 'Your Cart'
     assert_text 'MyString'
     assert_text 'MyString2'
+    assert_no_selector '.line-item-highlight'
     click_on 'Add to Cart', match: :first
+    assert_selector '.line-item-highlight'
     all('input[value="Add to Cart"]')[1].click
+    assert_selector '.line-item-highlight'
 
     assert_text 'Your Cart'
     assert_text '1 MyString $9.99'
