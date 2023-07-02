@@ -75,6 +75,23 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
   end
 
+  def pay_type_params
+    permitted_params = begin
+      case order_params[:pay_type_id]
+      when '1'
+        %i[credit_card_number expiration_date]
+      when '2'
+        %i[routing_number account_number]
+      when '3'
+        %i[po_number]
+      else
+        []
+      end
+    end
+
+    params.require(:order).permit(*permitted_params)
+  end
+
   # Only allow a list of trusted parameters through.
   def order_params
     params.require(:order).permit(:name, :address, :email, :pay_type_id)

@@ -1,41 +1,45 @@
-require "application_system_test_case"
+require 'application_system_test_case'
 
 class CartsTest < ApplicationSystemTestCase
   setup do
     @cart = carts(:one)
   end
 
-  test "visiting the index" do
+  test 'visiting the index' do
     visit carts_url
-    assert_selector "h1", text: "Carts"
+    assert_selector 'h1', text: 'Listing carts'
   end
 
-  test "creating a Cart" do
-    visit carts_url
-    click_on "New Cart"
+  test 'updating a Cart' do
+    visit store_index_url
 
-    click_on "Create Cart"
+    assert_no_text 'Your Cart'
+    assert_text 'MyString'
+    assert_text 'MyString2'
+    click_on 'Add to Cart', match: :first
+    all('input[value="Add to Cart"]')[1].click
 
-    assert_text "Cart was successfully created"
-    click_on "Back"
+    assert_text 'Your Cart'
+    assert_text '1 MyString $9.99'
+    assert_text '1 MyString2 $9.99'
+    assert_text 'Total: $19.98'
   end
 
-  test "updating a Cart" do
-    visit carts_url
-    click_on "Edit", match: :first
+  test 'destroying a Cart' do
+    visit store_index_url
 
-    click_on "Update Cart"
+    assert_no_text 'Your Cart'
+    assert_text 'MyString'
+    click_on 'Add to Cart', match: :first
 
-    assert_text "Cart was successfully updated"
-    click_on "Back"
-  end
+    assert_text 'Your Cart'
+    assert_text '1 MyString $9.99'
+    assert_text 'Total: $9.99'
 
-  test "destroying a Cart" do
-    visit carts_url
-    page.accept_confirm do
-      click_on "Destroy", match: :first
-    end
+    accept_confirm { click_on 'Empty cart' }
 
-    assert_text "Cart was successfully destroyed"
+    assert_no_text 'Your Cart'
+    assert_no_text '1 MyString $9.99'
+    assert_no_text 'Total: $9.99'
   end
 end

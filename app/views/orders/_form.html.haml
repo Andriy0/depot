@@ -15,9 +15,7 @@
   .field
     = f.label :email
     = f.text_field :email, size: 40
-  .field
-    = f.label :pay_type_id
-    = f.select :pay_type_id, PayType.all.collect { |p| [p.name, p.id] }, prompt: 'Select a payment  method'
+  #pay-type-component
 
   .actions
     = f.submit 'Place Order'
