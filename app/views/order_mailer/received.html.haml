@@ -1,0 +1,14 @@
+%h3 Dear #{@order.name}
+
+%p Thank you for your recent order from The Pragmatic Store.
+
+%p You ordered the following items:
+
+%table
+  %tr
+    %th{ colspan: 2 } Qty
+    %th Description
+
+  = render @order.line_items
+
+%p We'll send you a separate email when your order ships.

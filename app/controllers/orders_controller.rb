@@ -30,6 +30,7 @@ class OrdersController < ApplicationController
       if @order.save
         Cart.destroy session[:cart_id]
         session[:cart_id] = nil
+        ChargeOrderJob.perform_later @order, pay_type_params.to_h
         format.html { redirect_to store_index_url, notice: 'Thank you for your order.' }
         format.json { render :show, status: :created, location: @order }
       else
@@ -78,11 +79,11 @@ class OrdersController < ApplicationController
   def pay_type_params
     permitted_params = begin
       case order_params[:pay_type_id]
-      when '1'
-        %i[credit_card_number expiration_date]
-      when '2'
+      when 'Check'
         %i[routing_number account_number]
-      when '3'
+      when 'Credit card'
+        %i[credit_card_number expiration_date]
+      when 'Purchase order'
         %i[po_number]
       else
         []
@@ -94,6 +95,6 @@ class OrdersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def order_params
-    params.require(:order).permit(:name, :address, :email, :pay_type_id)
+    params.require(:order).permit(:name, :address, :email, :pay_type)
   end
 end
