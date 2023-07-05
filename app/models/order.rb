@@ -12,6 +12,9 @@ class Order < ApplicationRecord
   validates :name, :address, :email, presence: true
   validates :pay_type, inclusion: pay_types.keys
 
+  # before_update -> { OrderMailer.shipped(self).deliver_later }, if: :ship_date_changed?
+  around_update :send_shipped_mail
+
   def add_line_items_from_cart(cart)
     cart.line_items.each do |item|
       item.cart_id = nil
@@ -49,8 +52,18 @@ class Order < ApplicationRecord
       payment_details: payment_details
     )
 
-    raise payment_result.error unless payment_result.succeeded?
+    if payment_result.succeeded?
+      OrderMailer.received(self).deliver_later
+    else
+      OrderMailer.payment_failed(self, payment_details, payment_result.error).deliver_later
+    end
+  end
 
-    OrderMailer.received(self).deliver_later
+  private
+
+  def send_shipped_mail
+    send_mail = ship_date_changed?
+    yield
+    OrderMailer.shipped(self).deliver_later if send_mail
   end
 end

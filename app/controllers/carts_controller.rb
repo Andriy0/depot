@@ -67,6 +67,7 @@ class CartsController < ApplicationController
 
   def invalid_cart
     logger.error "Attempt to access invalid or restricted cart #{params[:id]}"
+    ErrorMailer.invalid_record({ record_type: 'Cart', record_id: params[:id] }).deliver_later
     redirect_to store_index_url, notice: 'Invalid or restricted cart.'
   end
 

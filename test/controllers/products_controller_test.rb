@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class ProductsControllerTest < ActionDispatch::IntegrationTest
+  include ActiveJob::TestHelper
+
   setup do
     @product = products(:one)
     @title   = "The Great Book #{rand(1000)}"
@@ -35,6 +37,19 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   test 'should show product' do
     get product_url(@product)
     assert_response :success
+  end
+
+  test 'should not show invalid product' do
+    assert_difference('ActionMailer::Base.deliveries.size', 1) do
+      perform_enqueued_jobs { get product_url('fake_id') }
+    end
+
+    assert_redirected_to products_url
+
+    mail = ActionMailer::Base.deliveries.last
+    assert_equal ['admin@example.com'], mail.to
+    assert_equal 'Invalid record', mail.subject
+    assert_match 'Someone tried to access invalid or restricted Product with id fake_id', mail.body.encoded
   end
 
   test 'should get edit' do

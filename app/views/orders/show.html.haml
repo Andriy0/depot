@@ -1,5 +1,3 @@
-%p#notice= notice
-
 %p
   %b Name:
   = @order.name
@@ -12,6 +10,9 @@
 %p
   %b Pay type:
   = @order.pay_type
+%p
+  %b Ship date:
+  = @order.ship_date
 
 = link_to 'Edit', edit_order_path(@order)
 \|

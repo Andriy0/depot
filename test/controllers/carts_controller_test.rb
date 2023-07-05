@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class CartsControllerTest < ActionDispatch::IntegrationTest
+  include ActiveJob::TestHelper
+
   setup do
     @cart = carts(:one)
   end
@@ -32,8 +34,16 @@ class CartsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should not show not current cart' do
-    get cart_url(@cart)
+    assert_difference('ActionMailer::Base.deliveries.size', 1) do
+      perform_enqueued_jobs { get cart_url(@cart) }
+    end
+
     assert_redirected_to store_index_url
+
+    mail = ActionMailer::Base.deliveries.last
+    assert_equal ['admin@example.com'], mail.to
+    assert_equal 'Invalid record', mail.subject
+    assert_match "Someone tried to access invalid or restricted Cart with id #{@cart.id}", mail.body.encoded
   end
 
   test 'should get edit' do

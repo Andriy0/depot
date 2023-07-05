@@ -1,7 +1,10 @@
-%h1 Editing order
+%section.depot_form
+  %h1 Please Edit Details
 
-= render 'form'
+  = render 'form'
 
-= link_to 'Show', @order
-\|
-= link_to 'Back', orders_path
+  = link_to 'Show', @order
+  \|
+  = link_to 'Back', store_index_path
+
+= javascript_pack_tag 'pay_type'

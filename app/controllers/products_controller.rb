@@ -79,6 +79,7 @@ class ProductsController < ApplicationController
 
   def invalid_product
     logger.error "Attempt to access invalid product #{params[:id]}"
+    ErrorMailer.invalid_record({ record_type: 'Product', record_id: params[:id] }).deliver_later
     redirect_to products_url, notice: 'Invalid product.'
   end
 

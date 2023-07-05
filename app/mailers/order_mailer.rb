@@ -22,4 +22,12 @@ class OrderMailer < ApplicationMailer
 
     mail to: order.email, subject: 'Pragmatic Store Order Shipped'
   end
+
+  def payment_failed(order, payment_details, payment_result)
+    @order = order
+    @payment_details = payment_details
+    @payment_result = payment_result
+
+    mail to: order.email, subject: 'Pragmatic Store Order Payment Failed'
+  end
 end
