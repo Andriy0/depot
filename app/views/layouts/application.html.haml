@@ -30,6 +30,14 @@
           %li
             .time= Time.current.strftime('%H:%M:%S')
 
+        - if session[:user_id]
+          %nav.logged_in_nav
+            %ul
+              %li= link_to 'Orders', orders_path
+              %li= link_to 'Products', products_path
+              %li= link_to 'Users', users_path
+              %li= button_to 'Logout', logout_path, method: :delete
+
       %main{ class: controller.controller_name }
         - if notice
           %aside#notice= notice
