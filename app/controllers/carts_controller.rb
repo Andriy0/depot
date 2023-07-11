@@ -1,5 +1,5 @@
 class CartsController < ApplicationController
-  skip_before_action :authorize, only: %i[create update destroy]
+  skip_before_action :authorize
 
   before_action :set_cart, only: %i[show edit update destroy]
   before_action :invalid_cart, only: %i[show update destroy], unless: -> { can_access_cart?(@cart) }

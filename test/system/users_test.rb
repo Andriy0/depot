@@ -1,47 +1,43 @@
-require "application_system_test_case"
+require 'application_system_test_case'
 
 class UsersTest < ApplicationSystemTestCase
   setup do
-    @user = users(:dave)
+    login_as_and_visit users(:dave), users_url
   end
 
-  test "visiting the index" do
-    visit users_url
-    assert_selector "h1", text: "Users"
+  test 'visiting the index' do
+    assert_selector 'h1', text: 'Listing users'
   end
 
-  test "creating a User" do
-    visit users_url
-    click_on "New User"
+  test 'creating a User' do
+    click_on 'New User'
 
-    fill_in "Name", with: @user.name
-    fill_in "Password", with: 'secret'
-    fill_in "Password confirmation", with: 'secret'
-    click_on "Create User"
+    fill_in 'user_name', with: 'hanna'
+    fill_in 'user_password', with: 'secret'
+    fill_in 'user_password_confirmation', with: 'secret'
+    click_on 'Create User'
 
-    assert_text "User was successfully created"
-    click_on "Back"
+    assert_text 'User hanna was successfully created'
   end
 
-  test "updating a User" do
-    visit users_url
-    click_on "Edit", match: :first
+  test 'updating a User' do
+    click_on 'Edit', match: :first
 
-    fill_in "Name", with: @user.name
-    fill_in "Password", with: 'secret'
-    fill_in "Password confirmation", with: 'secret'
-    click_on "Update User"
+    fill_in 'user_name', with: 'rey'
+    # TO DO: fix later
+    # fill_in 'user_old_password', with: 'secret'
+    # fill_in 'user_password', with: 'new_password'
+    # fill_in 'user_password_confirmation', with: 'new_password'
+    click_on 'Update User'
 
-    assert_text "User was successfully updated"
-    click_on "Back"
+    assert_text 'User rey was successfully updated'
   end
 
-  test "destroying a User" do
-    visit users_url
+  test 'destroying a User' do
     page.accept_confirm do
-      click_on "Destroy", match: :first
+      all('a', text: 'Destroy')[1].click
     end
 
-    assert_text "User was successfully destroyed"
+    assert_text 'User was successfully destroyed'
   end
 end

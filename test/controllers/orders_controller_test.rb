@@ -8,6 +8,7 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should get index' do
+    login_as users(:dave)
     get orders_url
     assert_response :success
   end
@@ -42,11 +43,13 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should get edit' do
+    login_as users(:dave)
     get edit_order_url(@order)
     assert_response :success
   end
 
   test 'should not send email when not updating order`s ship_date' do
+    login_as users(:dave)
     assert_difference('ActionMailer::Base.deliveries.count', 0) do
       perform_enqueued_jobs do
         patch order_url(@order), params: { order: { address: @order.address,
@@ -60,6 +63,7 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should send email when updating order`s ship_date' do
+    login_as users(:dave)
     assert_difference('ActionMailer::Base.deliveries.count', 1) do
       perform_enqueued_jobs do
         patch order_url(@order), params: { order: { address: @order.address,
@@ -77,6 +81,7 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should destroy order' do
+    login_as users(:dave)
     assert_difference('Order.count', -1) do
       delete order_url(@order)
     end

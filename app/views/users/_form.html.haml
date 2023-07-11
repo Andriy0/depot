@@ -10,15 +10,20 @@
     %h2 Enter User Details
 
     .field
-      = f.label :name, 'Name'
+      = f.label :name, 'Name:'
       = f.text_field :name, size: 40
 
-    .field
-      = f.label :password, 'Password'
-      = f.text_field :password, size: 40
+    - if action_name.in? %w[edit update]
+      .field
+        = f.label :old_password, 'Old password:'
+        = f.password_field :old_password
 
     .field
-      = f.label :password_confirmation, 'Confirm'
+      = f.label :password, 'Password:'
+      = f.password_field :password, size: 40
+
+    .field
+      = f.label :password_confirmation, 'Confirm:'
       = f.password_field :password_confirmation, id: :user_password_confirmation, size: 40
 
     .actions

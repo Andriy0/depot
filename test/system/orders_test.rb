@@ -8,12 +8,12 @@ class OrdersTest < ApplicationSystemTestCase
   end
 
   test 'visiting the index' do
-    visit orders_url
+    login_as_and_visit users(:dave), orders_url
     assert_selector 'h1', text: 'Listing orders'
   end
 
   test 'destroying a Order' do
-    visit orders_url
+    login_as_and_visit users(:dave), orders_url
     page.accept_confirm do
       click_on 'Destroy', match: :first
     end

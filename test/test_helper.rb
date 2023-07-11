@@ -26,12 +26,15 @@ module AuthenticationHelpers
     end
   end
 
-  def logout
-    delete logout_url
+  def login_as_and_visit(user, url)
+    return unless respond_to? :visit
+
+    login_as user
+    visit url
   end
 
-  def setup
-    login_as users(:dave)
+  def logout
+    delete logout_url
   end
 end
 

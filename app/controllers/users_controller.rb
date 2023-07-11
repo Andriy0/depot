@@ -52,12 +52,12 @@ class UsersController < ApplicationController
     @user.destroy
 
     respond_to do |format|
-      format.html { redirect_to users_url, notice: "User was successfully destroyed." }
+      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
-  rescue_from 'User::Error' do |exception|
+  rescue_from User::Error do |exception|
     redirect_to users_url, notice: exception.message
   end
 
@@ -70,6 +70,6 @@ class UsersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_params
-    params.require(:user).permit(:name, :password, :password_confirmation)
+    params.require(:user).permit(:name, :password, :password_confirmation, :old_password)
   end
 end
