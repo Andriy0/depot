@@ -1,7 +1,7 @@
 - return unless @cart.line_items.any?
 
 %article 
-  %h2 Your Cart
+  %h2= t('.title')
 
   %table
     %tbody
@@ -13,6 +13,6 @@
         %td.price= number_to_currency cart.total_price
 
   .actions
-    = button_to 'Empty cart', cart, { method: :delete, remote: true, data: { confirm: 'Are you sure?' } }
+    = button_to t('.empty'), [cart, locale: I18n.locale], { method: :delete, remote: true, data: { confirm: 'Are you sure?' } }
     - unless controller_name.match?(/orders/)
-      = button_to 'Checkout', new_order_path, method: :get, class: 'checkout'
+      = button_to t('.checkout'), new_order_path, method: :get, class: 'checkout'

@@ -1,19 +1,20 @@
 = form_for @order do |f|
   - if @order.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@order.errors.count, "error")} prohibited this order from being saved:"
+      %h2= raw t('errors.template.header', count: @order.errors.count, model: t('activerecord.models.order'))
+      %p= t('errors.template.body')
       %ul
         - @order.errors.full_messages.each do |message|
-          %li= message
+          %li= raw message
 
   .field
-    = f.label :name
+    = f.label :name, t('.name')
     = f.text_field :name, size: 40
   .field
-    = f.label :address
+    = f.label :address, t('.address_html')
     = f.text_area :address, rows: 3, cols: 40
   .field
-    = f.label :email
+    = f.label :email, t('.email')
     = f.text_field :email, size: 40
 
   #pay-type-component
@@ -24,4 +25,4 @@
       = f.date_field :ship_date
 
   .actions
-    = f.submit 'Place Order'
+    = f.submit t('.submit')

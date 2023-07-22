@@ -1,4 +1,4 @@
-%h1 Your Pragmatic Catalog
+%h1= t('.title_html')
 
 %p You visited this page #{pluralize session[:visit_counter], 'time'}
 - if (session[:visit_counter] || 0) > 5
@@ -13,5 +13,5 @@
             = image_tag product.image_url
           %h2= product.title
           %p= sanitize product.description
-          .price= number_to_currency product.price, format: '%n%u'
-          = button_to 'Add to Cart', line_items_path(product_id: product.id), remote: true
+          .price= number_to_currency product.price
+          = button_to t('.add_html'), line_items_path(product_id: product.id, locale: I18n.locale), remote: true
